@@ -12,12 +12,14 @@ public class PlayerShooterController : MonoBehaviour
     [SerializeField] private Transform firePoint;
     [SerializeField] private Bullet _bulletPrefab;
     private float _nextfireTime = 0.25f;
-    private GameObject[] enemies; 
-
+    private GameObject[] enemies;
+    private AudioSource audioSource;
+    private AudioClip shootClip;
 
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
+        shootClip = Resources.Load<AudioClip>("SFX/m16-shooting");
     }
 
     private void Shoot()
@@ -35,9 +37,8 @@ public class PlayerShooterController : MonoBehaviour
                 rb.AddForce(dir * _bulletClone.GetSpeed(), ForceMode2D.Impulse);
                 _nextfireTime = Time.time + fireRate;
             }
-            
+            audioSource.PlayOneShot(shootClip);
         }
-
     }
 
    

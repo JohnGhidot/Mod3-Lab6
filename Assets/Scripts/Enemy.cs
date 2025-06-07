@@ -7,6 +7,10 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] float _speed;
     private PlayerController _playerController;
+    private AudioSource audioSource;
+    private AudioClip hitClip;
+    [SerializeField]
+    private float hitSoundVolume = 1f;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -19,6 +23,20 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         _playerController = Object.FindObjectOfType<PlayerController>();
+        audioSource = GetComponent<AudioSource>();
+        hitClip = Resources.Load<AudioClip>("SFX/Explosion1");
+    }
+
+    public void PlayHitSound()
+    {
+        if (audioSource != null && hitClip != null)
+        {
+            audioSource.PlayOneShot(hitClip, hitSoundVolume);
+        }
+        else
+        {
+            Debug.LogWarning("AudioSource o hitClip non assegnati nel nemico!");
+        }
     }
 
 
